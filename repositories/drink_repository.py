@@ -14,9 +14,9 @@ class DrinkRepository:
         self.drinks.append(drink)
         return drink
 
-    def update(self, id: int, drink:Drink) -> Drink | None:
+    def update(self, id: int, drink: Drink) -> Drink | None:
         ix = None
-        for drink, i in enumerate(self.drinks):
+        for i, drink in enumerate(self.drinks):
             if id == drink.id:
                 ix = i
         if ix:
@@ -27,7 +27,7 @@ class DrinkRepository:
 
     def delete(self, id: int) -> bool:
         ix = None
-        for drink, i in enumerate(self.drinks):
+        for i, drink in enumerate(self.drinks):
             if id == drink.id:
                 ix = i
         if ix:
