@@ -7,6 +7,7 @@ class PurchaseService:
         self._repository = repository
 
     def create_purchase(self, purchase: Purchase) -> Purchase:
-        if self._repository.get_by_id(Purchase.id) is not None:
-            raise DuplicatePurchaseError(f"Purchase '{Purchase.id}' already exists.")
-        return self._repository.add(Purchase)
+        if self._repository.get_by_id(purchase.id) is not None:
+            raise DuplicatePurchaseError(f"Purchase '{purchase.id}' already exists.")
+        return self._repository.add(purchase)
+    
