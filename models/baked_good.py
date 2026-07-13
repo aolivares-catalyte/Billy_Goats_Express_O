@@ -3,7 +3,7 @@ from decimal import Decimal, ROUND_HALF_UP
 
 @dataclass
 class BakedGood:
-
+    id: int
     name: str
     purchasing_cost: float
     markup_percentage: float
