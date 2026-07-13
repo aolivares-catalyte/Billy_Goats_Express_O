@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from decimal import Decimal, ROUND_HALF_UP
+from numbers import Number
 
 @dataclass
 class BakedGood:
