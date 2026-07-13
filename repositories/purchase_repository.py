@@ -11,9 +11,9 @@ class PurchaseRepository:
         self._purchases.append(purchase)
         return purchase
     def update(self, id: int, purchase: Purchase):
-        for p in self._purchases:
+        for ind,p in enumerate(self._purchases):
             if p.id ==id:
-                p = purchase
+                self._purchases[ind] = purchase
         return None
     def delete(self, id: int):
         for p in self._purchases:
