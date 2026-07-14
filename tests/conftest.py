@@ -23,6 +23,10 @@ def marcus():
 def priya():
     return Customer(2, "Priya Chandrasekaran", "priya.chandrasekaran@example.com", Decimal("560.27"))
 
+@pytest.fixture
+def diego():
+    return Customer(3, "Diego Fernandez", "diego.fernandez@example.com", Decimal("1067.48"))
+
 # Ingredients
 
 @pytest.fixture
@@ -68,6 +72,15 @@ def sample_drink_service(americano, latte):
     repo.add(americano)
     repo.add(latte)
     return DrinkService(repo)
+
+# Repositories
+
+@pytest.fixture
+def sample_customer_repository(marcus, priya):
+    repo = CustomerRepository()
+    repo.add(marcus)
+    repo.add(priya)
+    return repo
 
 @pytest.fixture
 def blueberry_muffin()->BakedGood:
