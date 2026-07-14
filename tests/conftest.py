@@ -19,6 +19,10 @@ def milk() -> Ingredient:
     return Ingredient(3, "Milk", Decimal("1.25"), 250.0, "g")
 
 @pytest.fixture
+def black_tea_leaves() -> Ingredient:
+    return Ingredient(4, "Black Tea Leaves", Decimal("3.50"), 10.0, "g")
+
+@pytest.fixture
 def americano(beans, water) -> Drink:
     markup = Decimal("0.25")
     return Drink(1, "Americano", [beans, water], Decimal("3.00"), markup)
