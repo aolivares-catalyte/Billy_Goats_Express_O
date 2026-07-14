@@ -6,6 +6,7 @@ from models.customer import Customer
 from models.drink import Drink
 from models.ingredient import Ingredient
 from repositories.customer_repository import CustomerRepository
+from repositories.purchase_repository import PurchaseRepository
 from models.baked_good import BakedGood
 from models.customer import Customer
 from models.purchase import Purchase
@@ -97,6 +98,15 @@ def sample_drink_repository(americano, latte):
     repo.add(americano)
     repo.add(latte)
     return repo
+
+@pytest.fixture
+def sample_purchase_repository(allen_purchase,marcus_purchase,priya_purchase,diego_purchase):
+    repo=PurchaseRepository()
+    repo.add(allen_purchase)
+    repo.add(marcus_purchase)
+    repo.add(priya_purchase)
+    repo.add(diego_purchase)
+
 #Baked Good
 
 @pytest.fixture
@@ -108,4 +118,21 @@ def blueberry_muffin()->BakedGood:
 def allen_purchase(blueberry_muffin,latte)->Purchase:
     d=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
     return Purchase(120,[blueberry_muffin,latte],allen,d)
+@pytest.fixture
+def marcus_purchase(marcus, americano, blueberry_muffin) -> Purchase:
+    """Marcus buys a simple coffee and a muffin."""
+    d = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    return Purchase(121, [americano, blueberry_muffin], marcus, d)
+
+@pytest.fixture
+def priya_purchase(priya, black_tea) -> Purchase:
+    """Priya buys two black teas."""
+    d = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    return Purchase(122, [black_tea, black_tea], priya, d)
+
+@pytest.fixture
+def diego_purchase(diego, latte) -> Purchase:
+    """Diego buys a single latte."""
+    d = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    return Purchase(123, [latte], diego, d)
 

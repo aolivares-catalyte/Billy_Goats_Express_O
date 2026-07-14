@@ -6,11 +6,13 @@ from repositories.purchase_repository import PurchaseRepository
 from services.purchase_service import PurchaseService
 from decimal import Decimal
 
-from tests.conftest import allen_purchase
+from tests.conftest import allen_purchase, sample_purchase_repository
 
 def test_purchase_model(allen_purchase):
     assert allen_purchase.id == 120 
 
+def test_purchase_repository_addall(sample_customer_repository):
+    pass
 
 
 #def test_create_purchase():
