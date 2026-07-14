@@ -57,6 +57,11 @@ def latte(beans, water, milk) -> Drink:
     markup = Decimal("0.25")
     return Drink(2, "Latte", [beans, water, milk], Decimal("5.00"), markup)
 
+@pytest.fixture
+def black_tea(black_tea_leaves, water) -> Drink:
+    markup = Decimal("0.17")
+    return Drink(3, "Black Tea", [black_tea_leaves, water], Decimal("1.50"), markup)
+
 # Services
 
 @pytest.fixture
@@ -80,6 +85,13 @@ def sample_customer_repository(marcus, priya):
     repo = CustomerRepository()
     repo.add(marcus)
     repo.add(priya)
+    return repo
+
+@pytest.fixture
+def sample_drink_repository(americano, latte):
+    repo = DrinkRepository()
+    repo.add(americano)
+    repo.add(latte)
     return repo
 
 @pytest.fixture
