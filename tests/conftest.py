@@ -1,10 +1,25 @@
 from decimal import Decimal
 import pytest
 
+from models.customer import Customer
 from models.drink import Drink
 from models.ingredient import Ingredient
+from repositories.customer_repository import CustomerRepository
 from repositories.drink_repository import DrinkRepository
+from services.customer_service import CustomerService
 from services.drink_service import DrinkService
+
+# Customers
+
+@pytest.fixture
+def marcus():
+    return Customer(1, "Marcus Whitfield", "marcus.whitfield@example.com", Decimal("0.0"))
+
+@pytest.fixture
+def priya():
+    return Customer(2, "Priya Chandrasekaran", "priya.chandrasekaran@example.com", Decimal("560.27"))
+
+# Ingredients
 
 @pytest.fixture
 def beans() -> Ingredient:
@@ -22,6 +37,8 @@ def milk() -> Ingredient:
 def black_tea_leaves() -> Ingredient:
     return Ingredient(4, "Black Tea Leaves", Decimal("3.50"), 10.0, "g")
 
+# Drinks
+
 @pytest.fixture
 def americano(beans, water) -> Drink:
     markup = Decimal("0.25")
@@ -31,6 +48,15 @@ def americano(beans, water) -> Drink:
 def latte(beans, water, milk) -> Drink:
     markup = Decimal("0.25")
     return Drink(2, "Latte", [beans, water, milk], Decimal("5.00"), markup)
+
+# Services
+
+@pytest.fixture
+def sample_customer_service(marcus, priya):
+    repo = CustomerRepository()
+    repo.add(marcus)
+    repo.add(priya)
+    return CustomerService(repo)
 
 @pytest.fixture
 def sample_drink_service(americano, latte):

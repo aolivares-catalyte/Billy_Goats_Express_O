@@ -10,6 +10,9 @@ class CustomerRepository:
     def get_by_id(self, id: int) -> Customer | None:
         return next((c for c in self.customers if c.id == id), None)
 
+    def get_by_name(self, name: str) -> Customer | None:
+        return next((d for d in self.customers if d.name == name), None)
+
     def add(self, customer: Customer) -> Customer:
         self.customers.append(customer)
         return customer

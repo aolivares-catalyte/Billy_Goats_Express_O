@@ -7,7 +7,11 @@ class CustomerService:
         self._repository = repository
 
     def create_customer(self, customer: Customer) -> Customer:
-        if self._repository.get_by_id(customer.id) is not None:
+        if self._repository.get_by_name(customer.name) is not None:
             msg = f"Customer {customer.name} already exists"
             raise DuplicateCustomerError(msg)
-        return self._repository.add(customer)
+        elif self._repository.get_by_id(customer.id) is not None:
+            msg = f"Customer {customer.id} already exists"
+            raise DuplicateCustomerError(msg)
+        else:
+            return self._repository.add(customer)
