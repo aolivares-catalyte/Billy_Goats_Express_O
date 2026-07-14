@@ -3,6 +3,9 @@ import pytest
 
 from models.drink import Drink
 from models.ingredient import Ingredient
+from models.baked_good import BakedGood
+from models.customer import Customer
+from models.purchase import Purchase
 from repositories.drink_repository import DrinkRepository
 from services.drink_service import DrinkService
 
@@ -34,3 +37,15 @@ def sample_drink_service(americano, latte):
     repo.add(americano)
     repo.add(latte)
     return DrinkService(repo)
+
+@pytest.fixture
+def blueberry_muffin()->BakedGood:
+    return BakedGood(1,"blueberry_muffin",1.50,2.00,"Blue Farms",["Wheat","Eggs","Milk","Soy"])
+
+@pytest.fixture
+def allen()->Customer:
+    return Customer(99,"Allen","aolivares1042@gmail.com",2000.00)
+
+@pytest.ficture
+def allen_purchase()->Purchase:
+    return Purchase((120,datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),[blueberry_muffin(),latte()],Customer(99,"Allen","aolivares1042@gmail.com",2000.00)))
