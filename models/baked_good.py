@@ -9,7 +9,7 @@ class BakedGood:
     purchasing_cost: float
     markup_percentage: float
     vendor_name: str
-    allergens: [str]
+    allergens: str
     sale_price: Decimal = field(init=False)
 
     def __post_init__(self):

@@ -12,3 +12,4 @@ class DuplicateBakedGoodError(Exception):
 class BakedGoodNotFoundError(Exception):
     """raised when there is no result for the baked good search"""
     pass
+
