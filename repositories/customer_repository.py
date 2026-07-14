@@ -19,7 +19,7 @@ class CustomerRepository:
 
     def update(self, id: int, customer: Customer) -> Customer | None:
         customer_index = next((i for (i, c) in enumerate(self.customers) if c.id == id), None)
-        if customer_index:
+        if customer_index is not None:
             self.customers[customer_index] = customer
             return customer
         else:
