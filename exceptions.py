@@ -4,3 +4,5 @@ class Incorrect_date_format(Exception):
 class DuplicatePurchaseError(Exception):
     """Raised when there has been a purchase with a certain id already created"""
     pass
+class DuplicateDrinkError(Exception):
+    pass

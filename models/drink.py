@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from decimal import Decimal
-from ingredient import Ingredient
+from models.ingredient import Ingredient
 
 @dataclass
 class Drink:
@@ -17,4 +17,4 @@ class Drink:
         self.ingredients = ingredients
         self.cost_to_produce = cost_to_produce
         self.markup_percentage = markup_percentage
-        self.sale_price = cost_to_produce * (1 + markup_percentage)
+        self.sale_price = (cost_to_produce * (Decimal("1") + markup_percentage)).quantize(Decimal("0.01"))
