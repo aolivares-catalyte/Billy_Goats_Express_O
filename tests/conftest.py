@@ -1,5 +1,6 @@
 from decimal import Decimal
 import pytest
+from datetime import datetime, timezone
 
 from models.drink import Drink
 from models.ingredient import Ingredient
@@ -8,6 +9,7 @@ from models.customer import Customer
 from models.purchase import Purchase
 from repositories.drink_repository import DrinkRepository
 from services.drink_service import DrinkService
+
 
 @pytest.fixture
 def beans() -> Ingredient:
@@ -46,6 +48,6 @@ def blueberry_muffin()->BakedGood:
 def allen()->Customer:
     return Customer(99,"Allen","aolivares1042@gmail.com",2000.00)
 
-@pytest.ficture
+@pytest.fixture
 def allen_purchase()->Purchase:
     return Purchase((120,datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),[blueberry_muffin(),latte()],Customer(99,"Allen","aolivares1042@gmail.com",2000.00)))
