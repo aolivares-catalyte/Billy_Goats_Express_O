@@ -6,3 +6,9 @@ class DuplicatePurchaseError(Exception):
     pass
 class DuplicateDrinkError(Exception):
     pass
+class DuplicateBakedGoodError(Exception):
+    """Raised when there is a duplicate entry for a baked good"""
+    pass
+class BakedGoodNotFoundError(Exception):
+    """raised when there is no result for the baked good search"""
+    pass
