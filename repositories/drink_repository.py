@@ -10,6 +10,9 @@ class DrinkRepository:
     def get_by_id(self, id: int) -> Drink | None:
         return next((d for d in self._drinks if d.id == id), None)
 
+    def get_by_name(self, name: str) -> Drink | None:
+        return next((d for d in self._drinks if d.name == name), None)
+
     def add(self, drink: Drink) -> Drink:
         self._drinks.append(drink)
         return drink
