@@ -1,0 +1,2 @@
+class DuplicateDrinkError(Exception):
+    pass
