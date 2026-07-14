@@ -1,6 +1,6 @@
 from repositories.purchase_repository import PurchaseRepository
 from models.purchase import Purchase
-from exceptions import DuplicatePurchaseError,Incorrect_date_format
+from exceptions import DuplicatePurchaseError,IncorrectDateFormat
 from datetime import datetime
 
 class PurchaseService:
@@ -15,5 +15,5 @@ class PurchaseService:
         try:
             datetime.strptime(date_string, correct_format)
         except ValueError:
-            raise Incorrect_date_format(f"Timestamp {date_string} is not in the right format")
+            raise IncorrectDateFormat(f"Timestamp {date_string} is not in the right format")
         return self._repository.add(purchase)

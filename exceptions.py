@@ -1,4 +1,4 @@
-class Incorrect_date_format(Exception):
+class IncorrectDateFormat(Exception):
     """Raised when the date formate does not match YYYY-MM-DD HH:MM:SS TZ"""
     pass
 class DuplicatePurchaseError(Exception):
