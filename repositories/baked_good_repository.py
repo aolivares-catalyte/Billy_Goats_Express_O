@@ -25,7 +25,7 @@ class BakedGoodRepository:
         return None
 
     def delete(self, name: str) -> bool:
-        baked_good = self.get_by_name(name)
+        baked_good = self.get_by_id(name)
 
         if baked_good:
             self.baked_goods.remove(baked_good)
