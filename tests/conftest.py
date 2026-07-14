@@ -13,7 +13,6 @@ from repositories.drink_repository import DrinkRepository
 from services.customer_service import CustomerService
 from services.drink_service import DrinkService
 
-<<<<<<< HEAD
 # Customers
 
 @pytest.fixture
@@ -25,8 +24,6 @@ def priya():
     return Customer(2, "Priya Chandrasekaran", "priya.chandrasekaran@example.com", Decimal("560.27"))
 
 # Ingredients
-=======
->>>>>>> PurchaseModelAllen
 
 @pytest.fixture
 def beans() -> Ingredient:
