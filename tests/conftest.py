@@ -26,6 +26,10 @@ def priya():
 @pytest.fixture
 def diego():
     return Customer(3, "Diego Fernandez", "diego.fernandez@example.com", Decimal("1067.48"))
+def allen()->Customer:
+    return Customer(99,"Allen","aolivares1042@gmail.com",Decimal("2000.00"))
+
+
 
 # Ingredients
 
@@ -93,15 +97,15 @@ def sample_drink_repository(americano, latte):
     repo.add(americano)
     repo.add(latte)
     return repo
+#Baked Good
 
 @pytest.fixture
 def blueberry_muffin()->BakedGood:
-    return BakedGood(1,"blueberry_muffin",1.50,2.00,"Blue Farms",["Wheat","Eggs","Milk","Soy"])
+    return BakedGood(1,"blueberry_muffin",Decimal("1.50"),Decimal("2.00"),"Blue Farms",["Wheat","Eggs","Milk","Soy"])
 
+#Purchase 
 @pytest.fixture
-def allen()->Customer:
-    return Customer(99,"Allen","aolivares1042@gmail.com",2000.00)
+def allen_purchase(blueberry_muffin,latte)->Purchase:
+    d=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    return Purchase(120,[blueberry_muffin,latte],allen,d)
 
-@pytest.fixture
-def allen_purchase()->Purchase:
-    return Purchase((120,datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),[blueberry_muffin(),latte()],Customer(99,"Allen","aolivares1042@gmail.com",2000.00)))

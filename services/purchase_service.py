@@ -1,5 +1,7 @@
 from repositories.purchase_repository import PurchaseRepository
 from models.purchase import Purchase
+from models.drink import Drink
+from models.baked_good import BakedGood
 from exceptions import DuplicatePurchaseError,IncorrectDateFormat
 from datetime import datetime
 
