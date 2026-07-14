@@ -14,3 +14,8 @@ class BakedGoodNotFoundError(Exception):
     pass
 class DuplicateCustomerError(Exception):
     pass
+class DuplicateIngredientError(Exception):
+    pass
+class IngredientNotFoundError(Exception):
+    pass
+
