@@ -136,7 +136,7 @@ def blueberry_muffin()->BakedGood:
 
 #Purchase 
 @pytest.fixture
-def allen_purchase(blueberry_muffin,latte)->Purchase:
+def allen_purchase(blueberry_muffin,latte,allen)->Purchase:
     d=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
     return Purchase(120,[blueberry_muffin,latte],allen,d)
 @pytest.fixture
