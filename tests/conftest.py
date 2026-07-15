@@ -7,12 +7,14 @@ from models.drink import Drink
 from models.ingredient import Ingredient
 from repositories.customer_repository import CustomerRepository
 from repositories.purchase_repository import PurchaseRepository
+from repositories.baked_good_repository import BakedGoodRepository
 from models.baked_good import BakedGood
 from models.customer import Customer
 from models.purchase import Purchase
 from repositories.drink_repository import DrinkRepository
 from services.customer_service import CustomerService
 from services.drink_service import DrinkService
+from services.baked_good_service import BakedGoodService
 
 # Customers
 
@@ -133,6 +135,20 @@ def complete_purchase_repository(allen_purchase,marcus_purchase,priya_purchase,d
 @pytest.fixture
 def blueberry_muffin()->BakedGood:
     return BakedGood(11,"blueberry_muffin",Decimal("1.50"),Decimal("2.00"),"Blue Farms",["Wheat","Eggs","Milk","Soy"])
+def banana_nut_muffin()->BakedGood:
+    return BakedGood(12,"banana_nut_muffin",Decimal("1.50"),Decimal("2.00"),"banana Farms",["Wheat","Eggs","Milk","Soy"])
+@pytest.fixture
+def baked_good_repository():
+    return BakedGoodRepository()
+@pytest.fixture
+def baked_good_service(baked_good_repository):
+    return BakedGoodService(baked_good_repository)
+@pytest.fixture
+def sample_baked_good_repository(blueberry_muffin) -> BakedGoodRepository:
+    repo = BakedGoodRepository()
+    repo.add(blueberry_muffin)
+    return repo
+
 
 #Purchase 
 @pytest.fixture
