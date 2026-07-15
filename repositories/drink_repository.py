@@ -18,23 +18,17 @@ class DrinkRepository:
         return drink
 
     def update(self, id: int, drink: Drink) -> Drink | None:
-        ix = None
-        for i, drink in enumerate(self._drinks):
-            if id == drink.id:
-                ix = i
-        if ix:
-            self._drinks[ix] = drink
+        drink_index = next((i for (i, c) in enumerate(self._drinks) if c.id == id), None)
+        if drink_index is not None:
+            self._drinks[drink_index] = drink
             return drink
         else:
             return None
 
     def delete(self, id: int) -> bool:
-        ix = None
-        for i, drink in enumerate(self._drinks):
-            if id == drink.id:
-                ix = i
-        if ix:
-            self._drinks.pop(ix)
+        drink_index = next((i for (i, c) in enumerate(self._drinks) if c.id == id), None)
+        if drink_index is not None:
+            self._drinks.pop(drink_index)
             return True
         else:
             return False
