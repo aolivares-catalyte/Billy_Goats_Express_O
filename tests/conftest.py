@@ -2,18 +2,18 @@ from decimal import Decimal
 import pytest
 from datetime import datetime, timezone
 
-# from models.customer import Customer
-# from models.drink import Drink
-# from models.ingredient import Ingredient
-# from repositories.customer_repository import CustomerRepository
-# from repositories.purchase_repository import PurchaseRepository
+from models.customer import Customer
+from models.drink import Drink
+from models.ingredient import Ingredient
+from repositories.customer_repository import CustomerRepository
+from repositories.purchase_repository import PurchaseRepository
 from repositories.baked_good_repository import BakedGoodRepository
 from models.baked_good import BakedGood
-# from models.customer import Customer
-# from models.purchase import Purchase
-# from repositories.drink_repository import DrinkRepository
-# from services.customer_service import CustomerService
-# from services.drink_service import DrinkService
+from models.customer import Customer
+from models.purchase import Purchase
+from repositories.drink_repository import DrinkRepository
+from services.customer_service import CustomerService
+from services.drink_service import DrinkService
 from services.baked_good_service import BakedGoodService
 from services.purchase_service import PurchaseService
 
@@ -88,7 +88,7 @@ from services.purchase_service import PurchaseService
 #     repo.add(latte)
 #     return DrinkService(repo)
 
-<<<<<<< HEAD
+
 # # Repositories
 =======
 @pytest.fixture
@@ -99,8 +99,6 @@ def sample_purchase_service(allen_purchase,marcus_purchase):
     return PurchaseService(repo)
 
 # Repositories
->>>>>>> cc9ca00ce5d79d68a2f9e34bb1ae72b2dcca939d
-
 # @pytest.fixture
 # def sample_customer_repository(marcus, priya):
 #     repo = CustomerRepository()
