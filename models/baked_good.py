@@ -7,7 +7,7 @@ class BakedGood:
     id: int
     name: str
     purchasing_cost: Decimal
-    markup_percentage: Decimal
+    markup_percentage: 1.25
     vendor_name: str
     allergens: list[str]
     sale_price: Decimal = field(init=False)
