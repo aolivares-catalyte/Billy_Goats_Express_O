@@ -49,7 +49,7 @@ class DrinkRepository:
 
         Args:
             id: The ID of the Drink to be removed.
-            drink: The Drink to add.
+            drink: The Drink to add in its place.
 
         Returns:
             The Drink that was added, or None if no Drink with the provided ID
