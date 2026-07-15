@@ -15,6 +15,8 @@ class Purchase:
     
     
     def __post_init__(self):
+        self.items = []
         self.total_cost = sum(i.sale_price for i in self.items)
+
 
         

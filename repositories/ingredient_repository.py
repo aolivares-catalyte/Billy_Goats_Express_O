@@ -1,11 +1,11 @@
 from models.ingredient import Ingredient
 
 class IngredientRepository:
-    def delete(self, id: int) -> bool:
+    def delete_ingredient(self, id: int) -> bool:
         ix = 0
         for ingredient in self.ingredients:
             if ingredient.id == id:
-                self.ingredients.pop(i)
+                self.ingredients.pop(ix)
                 return True
             ix = ix + 1
 
@@ -30,7 +30,7 @@ class IngredientRepository:
         ix = 0
         for current_ingredient in self.ingredients:
             if current_ingredient.id == id:
-                self.ingredients[i] = ingredient
+                self.ingredients[ix] = ingredient
                 return ingredient
             ix = ix + 1
 
@@ -43,7 +43,7 @@ class IngredientRepository:
         return None
     def get_by_name(self, name: str) -> Ingredient | None:
         for ingredient in self.ingredients:
-            if ingredient.name() == name():
+            if ingredient.name == name:
                 return ingredient
-      
+
         return None

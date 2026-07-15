@@ -18,6 +18,7 @@ class DuplicateIngredientError(Exception):
     pass
 class IngredientNotFoundError(Exception):
     pass
-
-
-
+class InvalidEmailError(Exception):
+    pass
+class DuplicateEmailError(Exception):
+    pass
