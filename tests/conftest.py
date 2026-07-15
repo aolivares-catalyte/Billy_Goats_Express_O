@@ -15,6 +15,8 @@ from repositories.drink_repository import DrinkRepository
 from services.customer_service import CustomerService
 from services.drink_service import DrinkService
 from services.baked_good_service import BakedGoodService
+from services.purchase_service import PurchaseService
+
 
 # Customers
 
@@ -85,6 +87,13 @@ def sample_drink_service(americano, latte):
     repo.add(americano)
     repo.add(latte)
     return DrinkService(repo)
+
+@pytest.fixture
+def sample_purchase_service(allen_purchase,marcus_purchase):
+    repo= PurchaseRepository()
+    repo.add(allen_purchase)
+    repo.add(marcus_purchase)
+    return PurchaseService(repo)
 
 # Repositories
 
