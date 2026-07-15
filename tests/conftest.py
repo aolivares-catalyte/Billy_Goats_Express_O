@@ -15,6 +15,8 @@ from models.baked_good import BakedGood
 # from services.customer_service import CustomerService
 # from services.drink_service import DrinkService
 from services.baked_good_service import BakedGoodService
+from services.purchase_service import PurchaseService
+
 
 # Customers
 
@@ -86,7 +88,18 @@ from services.baked_good_service import BakedGoodService
 #     repo.add(latte)
 #     return DrinkService(repo)
 
+<<<<<<< HEAD
 # # Repositories
+=======
+@pytest.fixture
+def sample_purchase_service(allen_purchase,marcus_purchase):
+    repo= PurchaseRepository()
+    repo.add(allen_purchase)
+    repo.add(marcus_purchase)
+    return PurchaseService(repo)
+
+# Repositories
+>>>>>>> cc9ca00ce5d79d68a2f9e34bb1ae72b2dcca939d
 
 # @pytest.fixture
 # def sample_customer_repository(marcus, priya):
