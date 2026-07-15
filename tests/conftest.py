@@ -18,7 +18,7 @@ from services.drink_service import DrinkService
 
 @pytest.fixture
 def marcus():
-    return Customer(1, "Marcus Whitfield", "marcus.whitfield@example.com", Decimal("0.0"))
+    return Customer(1, "Marcus Whitfield", "marcus.whitfield@example.com")
 
 @pytest.fixture
 def priya():

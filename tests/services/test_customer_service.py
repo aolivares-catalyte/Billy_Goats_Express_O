@@ -7,7 +7,7 @@ from services.customer_service import validate_email
 
 def test_duplicate_customer_name_should_raise_DuplicateCustomerError(sample_customer_service):
     with pytest.raises(DuplicateCustomerError):
-        customer = Customer(3, "Priya Chandrasekaran", "priya@example.com", Decimal("0.0"))
+        customer = Customer(3, "Priya Chandrasekaran", "priya@example.com")
         sample_customer_service.create_customer(customer)
 
 def test_duplicate_customer_id_should_raise_DuplicateCustomerError(sample_customer_service):
