@@ -2,37 +2,34 @@ from decimal import Decimal
 
 import pytest
 
+from exceptions import (
+    BakedGoodNotFoundError,
+    DuplicateBakedGoodError,
+)
 from models.baked_good import BakedGood
 from repositories.baked_good_repository import BakedGoodRepository
 from services.baked_good_service import BakedGoodService
-from exceptions import (
-    DuplicateBakedGoodError,
-    BakedGoodNotFoundError,
-)
 
 
 class TestBakedGoodService:
-    
     """Test suite for the BakedGoodService class."""
-    
 
-    def setup_method(self):
-        
+    def setup_method(self) -> None:
         """Creates a fresh repository and service before each test."""
 
         self.repository = BakedGoodRepository()
         self.service = BakedGoodService(self.repository)
 
         self.baked_good = BakedGood(
+            id=1,
             name="Blueberry Muffin",
             purchasing_cost=Decimal("2.00"),
             markup_percentage=Decimal("50"),
             vendor_name="Sweet Bakery",
-            allergens=["Wheat", "Milk", "Eggs"]
+            allergens=["Wheat", "Milk", "Eggs"],
         )
 
     def test_create_baked_good(self):
-        
         """Verifies that a baked good is successfully created."""
 
         result = self.service.create_baked_good(self.baked_good)
@@ -41,26 +38,29 @@ class TestBakedGoodService:
         assert len(self.service.get_all_baked_goods()) == 1
 
     def test_duplicate_baked_good_raises_exception(self):
+        """Verifies that creating a baked good with an existing name raises DuplicateBakedGoodError."""
 
-        """Verifies that creating a duplicate baked good raises DuplicateBakedGoodError."""
-
+    # Arrange
         self.service.create_baked_good(self.baked_good)
 
+    # Act & Assert
         with pytest.raises(DuplicateBakedGoodError):
             self.service.create_baked_good(self.baked_good)
 
     def test_get_existing_baked_good(self):
-        
-        """Verifies that an existing baked good can be retrieved."""
-        
+        """Verifies that an existing baked good can be retrieved by name."""
+
+        # Arrange
         self.service.create_baked_good(self.baked_good)
 
-        result = self.service.get_baked_good("Blueberry Muffin")
+        # Act
+        result = self.service.get_baked_good(self.baked_good.name)
 
+        # Assert
+        assert result is not None
         assert result == self.baked_good
 
     def test_get_nonexistent_baked_good_returns_none(self):
-    
         """Verifies that requesting a baked good that does not exist returns None."""
 
         result = self.service.get_baked_good("Chocolate Croissant")
@@ -68,7 +68,6 @@ class TestBakedGoodService:
         assert result is None
 
     def test_get_all_baked_goods(self):
-        
         """Verifies that all baked goods are returned."""
 
         self.service.create_baked_good(self.baked_good)

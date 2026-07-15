@@ -1,9 +1,8 @@
-
-from repositories.baked_good_repository import BakedGoodRepository
 from models.baked_good import BakedGood
+from repositories.baked_good_repository import BakedGoodRepository
 from exceptions import (
-DuplicateBakedGoodError,
-    BakedGoodNotFoundError
+    DuplicateBakedGoodError,
+    BakedGoodNotFoundError,
 )
 
 
@@ -15,7 +14,7 @@ class BakedGoodService:
     delegates data storage to the repository.
     """
 
-    def __init__(self, repository: BakedGoodRepository):
+    def __init__(self, repository: BakedGoodRepository) -> None:
         """
         Initializes the service with a baked good repository.
 
@@ -47,25 +46,25 @@ class BakedGoodService:
             BakedGood | None:
                 The baked good if found, otherwise None.
         """
-        return self._repository.get_by_id(name)
+        return self._repository.get_by_name(name)
 
     def create_baked_good(self, baked_good: BakedGood) -> BakedGood:
         """
         Creates a new baked good.
 
-        Raises:
-            DuplicateBakedGoodError:
-                If a baked good with the same name already exists.
-
         Args:
             baked_good (BakedGood):
                 The baked good to add.
+
+        Raises:
+            DuplicateBakedGoodError:
+                If a baked good with the same name already exists.
 
         Returns:
             BakedGood:
                 The newly created baked good.
         """
-        if self._repository.get_by_id(baked_good.name) is not None:
+        if self._repository.get_by_name(baked_good.name) is not None:
             raise DuplicateBakedGoodError(
                 f"Baked good '{baked_good.name}' already exists."
             )
@@ -75,7 +74,7 @@ class BakedGoodService:
     def update_baked_good(
         self,
         name: str,
-        baked_good: BakedGood
+        baked_good: BakedGood,
     ) -> BakedGood:
         """
         Updates an existing baked good.
