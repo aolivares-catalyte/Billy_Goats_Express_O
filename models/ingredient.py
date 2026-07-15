@@ -6,11 +6,11 @@ from numbers import Number
 class Ingredient:
     id: int
     name: str
-    purchasing_cost: float
+    purchasing_cost: Decimal
     unit_amount: float
     unit_of_measure: str
 
-    def __init__(self, id: int, name: str, purchasing_cost: float, unit_amount: float, unit_of_measure: str):
+    def __init__(self, id: int, name: str, purchasing_cost: Decimal, unit_amount: float, unit_of_measure: str):
         
         self.id = id
         self.name = name
