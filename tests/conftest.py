@@ -27,6 +27,7 @@ def priya():
 @pytest.fixture
 def diego():
     return Customer(3, "Diego Fernandez", "diego.fernandez@example.com", Decimal("1067.48"))
+@pytest.fixture
 def allen()->Customer:
     return Customer(99,"Allen","aolivares1042@gmail.com",Decimal("2000.00"))
 
@@ -100,18 +101,38 @@ def sample_drink_repository(americano, latte):
     return repo
 
 @pytest.fixture
-def sample_purchase_repository(allen_purchase,marcus_purchase,priya_purchase,diego_purchase):
+def sample_purchase_repository(allen_purchase,marcus_purchase,priya_purchase):
+    repo=PurchaseRepository()
+    repo.add(allen_purchase)
+    repo.add(marcus_purchase)
+    repo.add(priya_purchase)
+    return repo
+
+@pytest.fixture
+def second__sample_purchase_repository(allen_purchase,marcus_purchase,diego_purchase):
+    repo=PurchaseRepository()
+    repo.add(allen_purchase)
+    repo.add(marcus_purchase)
+    repo.add(diego_purchase)
+    return repo
+
+
+
+@pytest.fixture
+def complete_purchase_repository(allen_purchase,marcus_purchase,priya_purchase,diego_purchase):
     repo=PurchaseRepository()
     repo.add(allen_purchase)
     repo.add(marcus_purchase)
     repo.add(priya_purchase)
     repo.add(diego_purchase)
+    return repo
+    
 
 #Baked Good
 
 @pytest.fixture
 def blueberry_muffin()->BakedGood:
-    return BakedGood(1,"blueberry_muffin",Decimal("1.50"),Decimal("2.00"),"Blue Farms",["Wheat","Eggs","Milk","Soy"])
+    return BakedGood(11,"blueberry_muffin",Decimal("1.50"),Decimal("2.00"),"Blue Farms",["Wheat","Eggs","Milk","Soy"])
 
 #Purchase 
 @pytest.fixture

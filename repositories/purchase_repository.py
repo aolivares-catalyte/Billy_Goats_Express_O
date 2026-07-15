@@ -2,7 +2,7 @@ from models.purchase import Purchase
 
 class PurchaseRepository:
     def __init__(self):
-        self._purchases=list[Purchase] = []
+        self._purchases:list[Purchase] =[]  
 
     def get_all(self) ->list[Purchase]:
         return self._purchases
@@ -15,18 +15,18 @@ class PurchaseRepository:
         return purchase
     
     def update(self, id: int, purchase: Purchase) ->Purchase|None:
-        for ind,p in enumerate(self._purchases):
-            if p.id ==id:
-                self._purchases[ind] = purchase
-                return purchase
-            else: 
-                return None
+        purchase_index=next((ind for ind,p in enumerate(self._purchases) if p.id == id), None)
+        if purchase_index is not None:
+            self._purchases[purchase_index] = purchase
+            return purchase
+        else:
+            return None
             
     def delete(self, id: int)->bool:
-        for p in self._purchases:
-            if p.id == id:
-                self._purchases.remove(p)
-                return True
-            else:
-                return False
+        purchase_index=next((ind for ind,p in enumerate(self._purchases) if p.id == id), None)
+        if purchase_index is not None:
+            self._purchases.pop(purchase_index)
+            return True
+        else:
+            return False
 
