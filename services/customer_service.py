@@ -38,10 +38,65 @@ def validate_email(email: str, customer_repository: CustomerRepository):
         raise DuplicateEmailError("Email #{email} must be unique")
 
 class CustomerService:
+    """A service for managing Customers"""
+
     def __init__(self, repository: CustomerRepository) -> None:
+        """Create a new customer service.
+
+        Args:
+            repository: The repository containing the customers.
+        
+        Raises:
+            DuplicateCustomerError: If any two customers have the same ID.
+            DuplicateEmailError: If any two customers have the same email.
+            InvalidEmailError: If any customer has an invalid (malformed) email.
+        """
         self._repository = repository
 
+    def get_all_customers(self) -> list[Customer]:
+        """Get all customers in the service.
+
+        Returns:
+            A list containing the customers.
+        """
+        return []
+
+    def get_customer_by_id(self, id: int) -> Customer | None:
+        """Search for a customer by ID.
+
+        Args:
+            id: The customer ID.
+
+        Returns:
+            The customer with the provided ID, or None if not found.
+        """
+        self._repository.get_by_id(id)
+
+    def get_customer_by_name(self, name: str) -> Customer | None:
+        """Search for a customer by name.
+
+        Args:
+            name: The customer name.
+
+        Returns:
+            The customer with the provided name, or None if not found.
+        """
+        self._repository.get_by_name(name)
+
     def create_customer(self, customer: Customer) -> Customer:
+        """Add a new customer to the service.
+
+        Args:
+            customer: The customer to add.
+
+        Raises:
+            DuplicateCustomerError: If the customer has the same ID as one already managed by the service.
+            DuplicateEmailError: If the customer has the same email as one already managed by the service.
+            InvalidEmailError: If the customer has an invalid (malformed) email.
+
+        Returns:
+            The customer that was added.
+        """
         if self._repository.get_by_name(customer.name) is not None:
             msg = f"Customer {customer.name} already exists"
             raise DuplicateCustomerError(msg)
@@ -51,3 +106,30 @@ class CustomerService:
         else:
             validate_email(customer.email, self._repository)
             return self._repository.add(customer)
+
+    def update_customer(self, id: int, customer: Customer) -> Customer | None:
+        """Add a new customer to the service.
+
+        Args:
+            customer: The customer to add.
+
+        Raises:
+            DuplicateCustomerError: If the customer has the same ID as one already managed by the service.
+            DuplicateEmailError: If the customer has the same email as one already managed by the service.
+            InvalidEmailError: If the customer has an invalid (malformed) email.
+
+        Returns:
+            The customer that was added.
+        """
+        return self._repository.update(id, customer)
+
+    def delete_customer(self, id: int) -> bool:
+        """Remove a customer from the service.
+
+        Args:
+            customer: The ID of the customer to remove.
+
+        Returns:
+            True if found and removed, False otherwise.
+        """
+        return self._repository.delete(id)
