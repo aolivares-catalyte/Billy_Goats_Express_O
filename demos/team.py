@@ -326,7 +326,7 @@ def baked_goods_menu() -> bool:
     choice = prompt("Please select an option:", [
 
         (1, "Show All Baked Goods 🍰"),
-        (2, "Add Baked Good"),
+        (2, "Add Baked Good ➕"),
         (3, "Search Baked Goods 🔍"),
         (4, "Delete Baked Good ❌"),
         (5, "Return to Main Menu ⬅️")
