@@ -27,7 +27,6 @@ print("Current Baked Goods:")
 for baked_good in baked_goods:
     print(baked_good)
 
-
 print(service.get_all_baked_goods())
 
 apple_pie = BakedGood(
