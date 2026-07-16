@@ -20,3 +20,6 @@ class PurchaseService:
             raise IncorrectDateFormat(f"Timestamp {date_string} is not in the right format")
         purchase.total_cost
         return self._repository.add(purchase)
+    def get_all_purchases(self):
+        return self._repository.get_all()
+    
