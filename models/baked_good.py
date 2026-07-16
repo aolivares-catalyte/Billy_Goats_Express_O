@@ -13,11 +13,7 @@ class BakedGood:
     sale_price: Decimal = field(init=False)
 
     def __post_init__(self) -> None:
-        print(
-        "DEBUG:",
-        self.purchasing_cost,
-        self.markup_percentage
-    )
+        
         markup_amount = (
             self.purchasing_cost * self.markup_percentage
         ) / Decimal("100")
