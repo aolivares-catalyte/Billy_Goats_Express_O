@@ -1,5 +1,5 @@
-from dataclasses import dataclass
-from decimal import Decimal
+from dataclasses import dataclass, field
+from decimal import Decimal,ROUND_HALF_UP
 from models.ingredient import Ingredient
 
 @dataclass
@@ -23,4 +23,10 @@ class Drink:
     ingredients: list[Ingredient]
     cost_to_produce: Decimal
     markup_percentage: Decimal
-    sale_price: Decimal | None = None
+    sale_price: Decimal = field(init=False)
+
+    def __post_init__(self):
+        self.sale_price = (self.cost_to_produce * self.markup_percentage).quantize(
+            Decimal("0.01"), 
+            rounding=ROUND_HALF_UP
+        )
