@@ -1,3 +1,5 @@
+# Run this application with "python -m demos.team"
+
 from services.purchase_service import PurchaseService
 from repositories.purchase_repository import PurchaseRepository
 from models.purchase import Purchase
@@ -14,7 +16,7 @@ from models.ingredient import Ingredient
 from datetime import datetime, timezone
 from repositories.ingredient_repository import IngredientRepository
 from services.ingredient_service import IngredientService
-from exceptions import DuplicateIngredientError
+from exceptions import DuplicateIngredientError, InvalidEmailError, DuplicateEmailError, DuplicateCustomerError
 from services.baked_good_service import BakedGoodService
 from repositories.baked_good_repository import BakedGoodRepository
 from models.baked_good import BakedGood
@@ -81,7 +83,19 @@ def add_customer():
     print("Customer Email => ", end="", flush=True)
     email = input()
     id = fresh_id(customer_service.get_all_customers())
-    customer_service.create_customer(Customer(id, name, email))
+
+    try:
+        customer_service.create_customer(Customer(id, name, email))
+        print("Customer added successfully!")
+    except InvalidEmailError as e:
+        print(f"ERROR: Invalid email: {str(e)}")
+        print("Please re-enter customer details.")
+    except DuplicateEmailError as e:
+        print(f"ERROR: Invalid email: {str(e)}")
+        print("Please re-enter customer details.")
+    except DuplicateCustomerError as e:
+        print(f"ERROR: Duplicate customer: {str(e)}")
+        print("Please re-enter customer details.")
 
 # Ingredients
 
@@ -141,6 +155,7 @@ def seed_baked_goods():
     service.create_baked_good(apple_pie)
     service.create_baked_good(strawberry_muffin)
 
+<<<<<<< HEAD
 def show_all_baked_goods():
     baked_goods = service.get_all_baked_goods()
 
@@ -186,10 +201,32 @@ def delete_baked_good():
     service.delete_baked_good(name)
 
     print(f"{name} deleted.")
+=======
+
+#Purchase
+
+>>>>>>> c39f280bc6ab1dd5177c463ef4b3728fdb903d7c
 # Menus
 
+def ingredients_menu() -> bool:
+    print()
+    print(">>> Ingredients Menu <<<")
+    print("------------------------")
+    choice = prompt("Please select an option:", [
+        (1, "Add New Ingredient"),
+        (2, "Return to Main Menu"),
+    ])
+
+    if choice == 1:
+        # add_ingredient()
+        return True
+    else:
+        return False
+
 def baked_goods_menu() -> bool:
-    print("")
+    print()
+    print(">>> Baked Goods Menu <<<")
+    print("------------------------")
     choice = prompt("Please select an option:", [
         (1, "Show All Baked Goods"),
         (2, "Add Baked Good"),
@@ -213,13 +250,37 @@ def baked_goods_menu() -> bool:
     else:
         return False
 
-def main_menu() -> bool:
-    print("Welcome to Express-O Point-of-Sale!")
+def purchases_menu() -> bool:
+    print()
+    print(">>> Purchases Menu <<<")
+    print("-----------------------")
+    choice = prompt("Please select an option:", [
+        (1, "Show All Purchases"),
+        (2, "Get Purchases By Date"),
+        (3, "Get Most Frequent Purchase"),
+        (4, "Return to Main Menu")
+    ])
+
+    if choice == 1:
+        # show_all_purchases()
+        return True
+    elif choice == 2:
+        # get_purchases_by_date()
+        return True
+    elif choice == 3:
+        # get_most_frequent_purchase()
+        return True
+    else:
+        return False
+
+def customers_menu() -> bool:
+    print()
+    print(">>> Customers Menu <<<")
+    print("----------------------")
     choice = prompt("Please select an option:", [
         (1, "Show All Customers"),
         (2, "Add Customer"),
-        (4, "Manage Baked Goods"),
-        (3, "Exit")
+        (3, "Return to Main Menu")
     ])
 
     if choice == 1:
@@ -228,15 +289,49 @@ def main_menu() -> bool:
     elif choice == 2:
         add_customer()
         return True
-    elif choice == 4:
+    else:
+        return False
+
+def main_menu() -> bool:
+    print()
+    print(">>> Main Menu <<<")
+    print("-----------------")
+    choice = prompt("Please select an option:", [
+        (1, "Manage Customers"),
+        (2, "Manage Baked Goods"),
+        (3, "Manage Ingredients"),
+        (4, "Manage Purchases"),
+        (5, "Exit")
+    ])
+
+    if choice == 1:
+        while customers_menu():
+            pass
+        return True
+    elif choice == 2:
         while baked_goods_menu():
+            pass
+        return True
+    elif choice == 3:
+        while ingredients_menu():
+            pass
+        return True
+    elif choice == 4:
+        while purchases_menu():
             pass
         return True
     else:
         return False
 
 def main():
+<<<<<<< HEAD
     seed_baked_goods()
+=======
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print("Welcome to Express-O Point-of-Sale!")
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+
+>>>>>>> c39f280bc6ab1dd5177c463ef4b3728fdb903d7c
     while main_menu():
         pass
 
