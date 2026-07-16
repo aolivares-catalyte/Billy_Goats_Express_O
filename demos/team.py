@@ -1,5 +1,5 @@
 # Run this application with "python -m demos.team"
-
+from exceptions import DuplicateIngredientError, IncorrectDateFormat
 from services.purchase_service import PurchaseService
 from repositories.purchase_repository import PurchaseRepository
 from models.purchase import Purchase
@@ -157,29 +157,35 @@ def add_baked_good():
 
 def show_all_purchases():
     purchases = purchase_service.get_all_purchases()
-    print(f"Showing all of the purchases made (Total : {len(purchases)})")
+    print(f"Showing all of the purchases made (Total: {len(purchases)})")
     for purchase in purchases:
-        print(f"Purchase ID: {purchase.id}\n")
-        print(f"Timestamp: {purchase.timestamp}\n")
-        print(f"Customer: {purchase.customer.name}\n")
-        print(f"Total Cost: ${purchase.total_cost}\n")
+        print(f"Purchase ID: {purchase.id}")
+        print(f"    Timestamp: {purchase.timestamp}")
+        print(f"    Customer: {purchase.customer.name}")
+        print(f"    Total Cost: ${purchase.total_cost}")
+        
         item_names = [item.name for item in purchase.items]
-        print("    Items:", *item_names, sep=", ",end="\n")
+        formatted_items = ", ".join(item_names)
+        print(f"    Items: {formatted_items}\n")
+        
     print(f"----All Purchases---\n")
     
 def get_purchases_by_date():
     print("Search Purchases by Date:")
-    print("Date (YYYY-MM-DD HH:MM:SS UTC) => ", end="", flush=True)
+    print("Date (YYYY-MM-DD) => ", end="", flush=True) 
     date_str = input()
     
-    purchases = purchase_service.get_all_purchases_by_date(date_str)
-    print(f"Purchases matching date (Total: {len(purchases)}) /n")
-    for purchase in purchases:
-        print(f"Purchase ID: {purchase.id}")
-        print(f"    Customer: {purchase.customer.name}")
-        print(f"    Total Cost: ${purchase.total_cost}")
-        print()
-    print(f"\n End of purchases \n")
+    try:
+        purchases = purchase_service.get_all_purchases_by_date(date_str)
+        print(f"\nPurchases matching date (Total: {len(purchases)}) \n")
+        for purchase in purchases:
+            print(f"Purchase ID: {purchase.id}")
+            print(f"    Customer: {purchase.customer.name}")
+            print(f"    Total Cost: ${purchase.total_cost}")
+            print()
+        print(f"End of purchases \n")
+    except IncorrectDateFormat as e:
+        print(f"\nERROR {e}\n")
 
 def get_most_frequent_purchase():
     print("The MOST FREQUENTLY PURCHASED item is: \n")
@@ -189,7 +195,7 @@ def get_most_frequent_purchase():
         print(f"The current fan-favorite is: {popular_item}")
     else:
         print("No purchases found in the system yet.")
-    print("======================================\n")
+    print("-----------------------\n")
 
 # Menus
 
