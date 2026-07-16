@@ -127,8 +127,8 @@ def seed_baked_goods():
     danish = BakedGood(
         id=333,
         name="Danish",
-        purchasing_cost=Decimal("2.00"),
-        markup_percentage=Decimal("50"),
+        purchasing_cost=Decimal("2.50"),
+        markup_percentage=Decimal("10"),
         vendor_name="Sweet Bakery",
         allergens=["Wheat", "Milk", "Eggs"]
     )
@@ -136,8 +136,8 @@ def seed_baked_goods():
     apple_pie = BakedGood(
         id=555,
         name="Apple Pie",
-        purchasing_cost=Decimal("2.00"),
-        markup_percentage=Decimal("50"),
+        purchasing_cost=Decimal("1.50"),
+        markup_percentage=Decimal("23"),
         vendor_name="WsG Farms",
         allergens=["Milk", "Eggs"]
     )
@@ -146,7 +146,7 @@ def seed_baked_goods():
         id=999,
         name="Strawberry Muffin",
         purchasing_cost=Decimal("1.25"),
-        markup_percentage=Decimal("70"),
+        markup_percentage=Decimal("9"),
         vendor_name="Sweet Bakery",
         allergens=["Wheat", "Milk", "Eggs"]
     )
@@ -155,15 +155,24 @@ def seed_baked_goods():
     service.create_baked_good(apple_pie)
     service.create_baked_good(strawberry_muffin)
 
-<<<<<<< HEAD
+
 def show_all_baked_goods():
     baked_goods = service.get_all_baked_goods()
 
-    print(f"\nDisplaying {len(baked_goods)} baked goods:\n")
+    print("\n>>> AVAILABLE BAKED GOODS <<<")
+    print("-----------------------------")
 
     for baked_good in baked_goods:
-        print(baked_good)
-
+        print(f"""
+ID: {baked_good.id}
+Name: {baked_good.name}
+Vendor: {baked_good.vendor_name}
+Purchase Cost: ${baked_good.purchasing_cost}
+Markup: {baked_good.markup_percentage}%
+Sale Price: ${baked_good.sale_price}
+Allergens: {", ".join(baked_good.allergens)}
+-----------------------------
+""")
 
 def search_baked_good():
     name = input("Enter baked good name: ")
@@ -201,11 +210,11 @@ def delete_baked_good():
     service.delete_baked_good(name)
 
     print(f"{name} deleted.")
-=======
+
 
 #Purchase
 
->>>>>>> c39f280bc6ab1dd5177c463ef4b3728fdb903d7c
+
 # Menus
 
 def ingredients_menu() -> bool:
@@ -324,14 +333,11 @@ def main_menu() -> bool:
         return False
 
 def main():
-<<<<<<< HEAD
     seed_baked_goods()
-=======
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     print("Welcome to Express-O Point-of-Sale!")
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
->>>>>>> c39f280bc6ab1dd5177c463ef4b3728fdb903d7c
     while main_menu():
         pass
 
