@@ -18,4 +18,5 @@ class PurchaseService:
             datetime.strptime(date_string, correct_format)
         except (TypeError,ValueError):
             raise IncorrectDateFormat(f"Timestamp {date_string} is not in the right format")
+        purchase.total_cost
         return self._repository.add(purchase)
