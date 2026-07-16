@@ -1,5 +1,5 @@
 # Run this application with "python -m demos.team"
-
+from exceptions import DuplicateIngredientError, IncorrectDateFormat
 from services.purchase_service import PurchaseService
 from repositories.purchase_repository import PurchaseRepository
 from models.purchase import Purchase
@@ -25,20 +25,49 @@ from decimal import Decimal
 # Preassembled Services / Objects
 
 purchase_service = PurchaseService(PurchaseRepository())
-d= datetime(2020, 1, 1, tzinfo=timezone.utc)
-beans=Ingredient(1, "Coffee Beans", Decimal("2.50"), 14.0, "g")
-water=Ingredient(2, "Water", Decimal("0.01"), 250.0, "g")
-milk=Ingredient(3, "Milk", Decimal("1.25"), 250.0, "g")
-latte=Drink(2, "Latte", [beans, water, milk], Decimal("5.00"),Decimal("1.25") )
-blueberry_muffin=Ingredient(2, "Water", Decimal("0.01"), 250.0, "g")
-alex=Customer(99,"Alex","aolivares1042@gmail.com",Decimal("2000.00"))
-# alex_purchase = Purchase(120,[blueberry_muffin,latte],alex,d)
-# purchase_service.create_purchase(alex_purchase)
-
 customer_service = CustomerService(CustomerRepository())
-bill = Customer(1, "Bill Walters", "bill.walters@example.com", Decimal("560.78"))
+
+date_1 = "2024-11-30 08:15:00 UTC"
+date_2 = "2024-11-30 09:30:00 UTC"
+date_3 = "2024-12-01 10:00:00 UTC"
+date_4 = "2024-12-01 14:45:00 UTC"
+date_5 = "2024-12-02 07:30:00 UTC"
+
+# Ingredients
+beans = Ingredient(1, "Coffee Beans", Decimal("2.50"), 14.0, "g")
+water = Ingredient(2, "Water", Decimal("0.01"), 250.0, "g")
+milk = Ingredient(3, "Milk", Decimal("1.25"), 250.0, "g")
+
+# Drinks
+latte = Drink(1, "Latte", [beans, water, milk], Decimal("5.00"), Decimal("1.25"))
+americano = Drink(2, "Americano", [beans, water], Decimal("3.00"), Decimal("1.30"))
+
+# Baked Goods 
+blueberry_muffin = BakedGood(11, "Blueberry Muffin", Decimal("1.50"), Decimal("2.00"), "Blue Farms", ["Wheat", "Eggs", "Milk"])
+croissant = BakedGood(12, "Croissant", Decimal("2.00"), Decimal("1.50"), "French Bakery", ["Wheat", "Butter"])
+
+# Customers
+alex = Customer(99, "Alex", "aolivares1042@gmail.com", Decimal("2000.00"))
+bill = Customer(100, "Bill Walters", "bill.walters@example.com", Decimal("560.78"))
+
+
+customer_service.create_customer(alex)
 customer_service.create_customer(bill)
 
+#Purchases 
+
+purchase_1 = Purchase(101, [blueberry_muffin, latte], alex, date_1)
+purchase_2 = Purchase(102, [americano], bill, date_2)
+purchase_3 = Purchase(103, [croissant, croissant, latte], alex, date_3)
+purchase_4 = Purchase(104, [latte, blueberry_muffin], bill, date_4)
+purchase_5 = Purchase(105, [americano, croissant], alex, date_5)
+
+
+purchase_service.create_purchase(purchase_1)
+purchase_service.create_purchase(purchase_2)
+purchase_service.create_purchase(purchase_3)
+purchase_service.create_purchase(purchase_4)
+purchase_service.create_purchase(purchase_5)
 # Shared Input/Ouput Routines
 
 def prompt(prompt: str, options: list[tuple[int, str]]) -> int:
@@ -68,10 +97,7 @@ def show_customers():
     customers = customer_service.get_all_customers()
     print(f"=== DISPLAYING CUSTOMERS (Total: {len(customers):02}) ===")
     for customer in customers:
-        print(f"Customer ID: {customer.id}")
-        print(f"    Name: {customer.name}")
-        print(f"    Email: {customer.email}")
-        print(f"    Lifetime Spent: ${customer.lifetime_spent}")
+        print_customer(customer)
         print()
     print(f"=== END CUSTOMERS ======================")
     print()
@@ -97,27 +123,46 @@ def add_customer():
         print(f"ERROR: Duplicate customer: {str(e)}")
         print("Please re-enter customer details.")
 
+def print_customer(customer: Customer):
+    print(f"Customer ID: {customer.id}")
+    print(f"    Name: {customer.name}")
+    print(f"    Email: {customer.email}")
+    print(f"    Lifetime Spent: ${customer.lifetime_spent}")
+
+def find_customer_by_name():
+    print("Find Customer By Name:")
+    print("Search for (case insensitive) => ", end="", flush=True)
+    query = input()
+    customers = customer_service.search_customers_by_name(query)
+    if customers:
+        print(f"=== DISPLAYING CUSTOMERS (Total: {len(customers):02}) ===")
+        for customer in customers:
+            print_customer(customer)
+            print()
+        print(f"=== END CUSTOMERS ======================")
+        print()
+    else:
+        print("=== NO RESULTS MATCHING QUERY ===========")
+        print()
+
 # Ingredients
 
-def add_ingredient():
-    repository = IngredientRepository()
-    service = IngredientService(repository)
-
-    ingredient = Ingredient(
-        id=1,
-        name="Flour",
-        purchasing_cost=Decimal("3.99"),
-        unit_amount=5.0,
-        unit_of_measure="lb"
-    )
-
-    service.add_ingredient(ingredient)
-    print("An ingredient has been successfully added.")
-
-    try:
-        service.add_ingredient(ingredient)
-    except DuplicateIngredientError as e:
-        print(f"Error: This ingredient {e} has already been successfully added.")
+def add_ingredients(): 
+        id = int(input("Enter ingredient ID: "))
+        name = input("Enter ingredient name: ")
+        purchasing_cost = Decimal(input("Enter purchasing cost: "))
+        unit_amount = float(input("Enter unit amount: "))
+        unit_of_measure = str(input("Enter unit of measure: "))
+       
+        ingredient = Ingredient(
+            id=id,
+            name=name,
+            purchasing_cost=purchasing_cost,
+            unit_amount=unit_amount,
+            unit_of_measure=unit_of_measure
+        )
+        
+        print("Ingredient added successfully.")
 
 # Baked Goods
 repository = BakedGoodRepository()
@@ -215,6 +260,48 @@ def delete_baked_good():
 #Purchase
 
 
+def show_all_purchases():
+    purchases = purchase_service.get_all_purchases()
+    print(f"Showing all of the purchases made (Total: {len(purchases)})")
+    for purchase in purchases:
+        print(f"Purchase ID: {purchase.id}")
+        print(f"    Timestamp: {purchase.timestamp}")
+        print(f"    Customer: {purchase.customer.name}")
+        print(f"    Total Cost: ${purchase.total_cost}")
+        
+        item_names = [item.name for item in purchase.items]
+        formatted_items = ", ".join(item_names)
+        print(f"    Items: {formatted_items}\n")
+        
+    print(f"----All Purchases---\n")
+    
+def get_purchases_by_date():
+    print("Search Purchases by Date:")
+    print("Date (YYYY-MM-DD) => ", end="", flush=True) 
+    date_str = input()
+    
+    try:
+        purchases = purchase_service.get_all_purchases_by_date(date_str)
+        print(f"\nPurchases matching date (Total: {len(purchases)}) \n")
+        for purchase in purchases:
+            print(f"Purchase ID: {purchase.id}")
+            print(f"    Customer: {purchase.customer.name}")
+            print(f"    Total Cost: ${purchase.total_cost}")
+            print()
+        print(f"End of purchases \n")
+    except IncorrectDateFormat as e:
+        print(f"\nERROR {e}\n")
+
+def get_most_frequent_purchase():
+    print("The MOST FREQUENTLY PURCHASED item is: \n")
+    popular_item = purchase_service.get_most_frequent_item()
+    
+    if popular_item:
+        print(f"The most popular item at Express-O is:  {popular_item}")
+    else:
+        print("No purchases found in the system yet.")
+    print("-----------------------\n")
+
 # Menus
 
 def ingredients_menu() -> bool:
@@ -222,12 +309,12 @@ def ingredients_menu() -> bool:
     print(">>> Ingredients Menu <<<")
     print("------------------------")
     choice = prompt("Please select an option:", [
-        (1, "Add New Ingredient"),
-        (2, "Return to Main Menu"),
+        (1, "Add New Ingredient ➕"),
+        (2, "Return to Main Menu ⬅️"),
     ])
 
     if choice == 1:
-        # add_ingredient()
+        add_ingredients()
         return True
     else:
         return False
@@ -237,11 +324,12 @@ def baked_goods_menu() -> bool:
     print(">>> Baked Goods Menu <<<")
     print("------------------------")
     choice = prompt("Please select an option:", [
-        (1, "Show All Baked Goods"),
+
+        (1, "Show All Baked Goods 🍰"),
         (2, "Add Baked Good"),
-        (3, "Search Baked Goods"),
-        (4, "Delete Baked Good"),
-        (5, "Return to Main Menu")
+        (2, "Search Baked Goods 🔍"),
+        (3, "Delete Baked Good ❌"),
+        (4, "Return to Main Menu ⬅️")
     ])
 
     if choice == 1:
@@ -264,20 +352,20 @@ def purchases_menu() -> bool:
     print(">>> Purchases Menu <<<")
     print("-----------------------")
     choice = prompt("Please select an option:", [
-        (1, "Show All Purchases"),
-        (2, "Get Purchases By Date"),
-        (3, "Get Most Frequent Purchase"),
-        (4, "Return to Main Menu")
+        (1, "Show All Purchases 💰"),
+        (2, "Get Purchases By Date 🔍"),
+        (3, "Get Most Frequent Purchase 🔍"),
+        (4, "Return to Main Menu ⬅️")
     ])
 
     if choice == 1:
-        # show_all_purchases()
+        show_all_purchases()
         return True
     elif choice == 2:
-        # get_purchases_by_date()
+        get_purchases_by_date()
         return True
     elif choice == 3:
-        # get_most_frequent_purchase()
+        get_most_frequent_purchase()
         return True
     else:
         return False
@@ -287,15 +375,19 @@ def customers_menu() -> bool:
     print(">>> Customers Menu <<<")
     print("----------------------")
     choice = prompt("Please select an option:", [
-        (1, "Show All Customers"),
-        (2, "Add Customer"),
-        (3, "Return to Main Menu")
+        (1, "Show All Customers 😋"),
+        (2, "Search Customers By Name 🔍"),
+        (3, "Add Customer ➕"),
+        (4, "Return to Main Menu ⬅️")
     ])
 
     if choice == 1:
         show_customers()
         return True
     elif choice == 2:
+        find_customer_by_name()
+        return True
+    elif choice == 3:
         add_customer()
         return True
     else:
@@ -306,11 +398,11 @@ def main_menu() -> bool:
     print(">>> Main Menu <<<")
     print("-----------------")
     choice = prompt("Please select an option:", [
-        (1, "Manage Customers"),
-        (2, "Manage Baked Goods"),
-        (3, "Manage Ingredients"),
-        (4, "Manage Purchases"),
-        (5, "Exit")
+        (1, "Manage Customers 😋"),
+        (2, "Manage Baked Goods 🍰"),
+        (3, "Manage Ingredients 🥣"),
+        (4, "Manage Purchases 💰"),
+        (5, "Exit 🚪")
     ])
 
     if choice == 1:
@@ -333,10 +425,11 @@ def main_menu() -> bool:
         return False
 
 def main():
+
     seed_baked_goods()
-    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    print("Welcome to Express-O Point-of-Sale!")
-    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print("Welcome to Express-O ☕ Point-of-Sale!")
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
     while main_menu():
         pass

@@ -23,6 +23,8 @@ class PurchaseService:
         return self._repository.add(purchase)
     def get_all_purchases(self):
         return self._repository.get_all()
+    
+
     def get_all_purchases_by_date(self,date):
         correct_date=[]
         correct_format = "%Y-%m-%d %H:%M:%S UTC"
@@ -30,14 +32,26 @@ class PurchaseService:
             datetime.strptime(date, correct_format)
         except (TypeError,ValueError):
             raise IncorrectDateFormat(f"Timestamp {date} is not in the right format")
-        for purchase in self._repository.get_all:
+        for purchase in self._repository.get_all():
             if purchase.timestamp ==date:
                 correct_date.append(purchase)
         return correct_date
-    
+    def get_all_purchases_by_date(self, date: str):
+        correct_date = []
+        correct_format = "%Y-%m-%d"
+        try:
+            datetime.strptime(date, correct_format)
+        except (TypeError, ValueError):
+            raise IncorrectDateFormat(f"Date {date} is not in the right format. Please use YYYY-MM-DD.")
+        for purchase in self._repository.get_all():
+            if purchase.timestamp.startswith(date):
+                correct_date.append(purchase)
+                
+        return correct_date
     def get_most_frequent_item(self):
         all_items = []
-        for current_purchase in self._repository.get_all():
+        x=self._repository.get_all()
+        for current_purchase in x:
             for item in current_purchase.items:
                 all_items.append(item.name) 
         if not all_items:
