@@ -1,7 +1,24 @@
+from services.purchase_service import PurchaseService
+from repositories.purchase_repository import PurchaseRepository
+from models.purchase import Purchase
+from decimal import Decimal
+from models.customer import Customer
 from services.customer_service import CustomerService
 from repositories.customer_repository import CustomerRepository
-from models.customer import Customer
-from decimal import Decimal
+from models.drink import Drink
+from models.ingredient import Ingredient
+from datetime import datetime, timezone
+
+purchase_service = PurchaseService(PurchaseRepository())
+d= datetime(2020, 1, 1, tzinfo=timezone.utc)
+beans=Ingredient(1, "Coffee Beans", Decimal("2.50"), 14.0, "g")
+water=Ingredient(2, "Water", Decimal("0.01"), 250.0, "g")
+milk=Ingredient(3, "Milk", Decimal("1.25"), 250.0, "g")
+latte=Drink(2, "Latte", [beans, water, milk], Decimal("5.00"),Decimal("1.25") )
+blueberry_muffin=Ingredient(2, "Water", Decimal("0.01"), 250.0, "g")
+alex=Customer(99,"Alex","aolivares1042@gmail.com",Decimal("2000.00"))
+alex_purchase = Purchase(120,[blueberry_muffin,latte],alex,d)
+purchase_service.create_purchase(alex_purchase)
 
 customer_service = CustomerService(CustomerRepository())
 bill = Customer(1, "Bill Walters", "bill.walters@example.com", Decimal("560.78"))
