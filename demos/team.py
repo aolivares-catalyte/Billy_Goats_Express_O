@@ -150,6 +150,9 @@ def add_baked_good():
     )
     service.create_baked_good(strawberry_muffin)
 
+
+#Purchase
+
 # Menus
 
 def ingredients_menu() -> bool:
