@@ -327,9 +327,9 @@ def baked_goods_menu() -> bool:
 
         (1, "Show All Baked Goods 🍰"),
         (2, "Add Baked Good"),
-        (2, "Search Baked Goods 🔍"),
-        (3, "Delete Baked Good ❌"),
-        (4, "Return to Main Menu ⬅️")
+        (3, "Search Baked Goods 🔍"),
+        (4, "Delete Baked Good ❌"),
+        (5, "Return to Main Menu ⬅️")
     ])
 
     if choice == 1:
@@ -398,15 +398,15 @@ def main_menu() -> bool:
     print(">>> Main Menu <<<")
     print("-----------------")
     choice = prompt("Please select an option:", [
-        (1, "Manage Customers 😋"),
+        (1, "Manage Ingredients 🥣"),
         (2, "Manage Baked Goods 🍰"),
-        (3, "Manage Ingredients 🥣"),
+        (3, "Manage Customers 😋"),
         (4, "Manage Purchases 💰"),
         (5, "Exit 🚪")
     ])
 
     if choice == 1:
-        while customers_menu():
+        while ingredients_menu():
             pass
         return True
     elif choice == 2:
@@ -414,7 +414,7 @@ def main_menu() -> bool:
             pass
         return True
     elif choice == 3:
-        while ingredients_menu():
+        while customers_menu():
             pass
         return True
     elif choice == 4:
