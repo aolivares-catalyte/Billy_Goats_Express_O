@@ -16,7 +16,7 @@ from models.ingredient import Ingredient
 from datetime import datetime, timezone
 from repositories.ingredient_repository import IngredientRepository
 from services.ingredient_service import IngredientService
-from exceptions import DuplicateIngredientError
+from exceptions import DuplicateIngredientError, InvalidEmailError, DuplicateEmailError, DuplicateCustomerError
 from services.baked_good_service import BakedGoodService
 from repositories.baked_good_repository import BakedGoodRepository
 from models.baked_good import BakedGood
@@ -83,7 +83,19 @@ def add_customer():
     print("Customer Email => ", end="", flush=True)
     email = input()
     id = fresh_id(customer_service.get_all_customers())
-    customer_service.create_customer(Customer(id, name, email))
+
+    try:
+        customer_service.create_customer(Customer(id, name, email))
+        print("Customer added successfully!")
+    except InvalidEmailError as e:
+        print(f"ERROR: Invalid email: {str(e)}")
+        print("Please re-enter customer details.")
+    except DuplicateEmailError as e:
+        print(f"ERROR: Invalid email: {str(e)}")
+        print("Please re-enter customer details.")
+    except DuplicateCustomerError as e:
+        print(f"ERROR: Duplicate customer: {str(e)}")
+        print("Please re-enter customer details.")
 
 # Ingredients
 
