@@ -1,3 +1,5 @@
+# Run this application with "python -m demos.team"
+
 from services.purchase_service import PurchaseService
 from repositories.purchase_repository import PurchaseRepository
 from models.purchase import Purchase
@@ -189,14 +191,33 @@ def baked_goods_menu() -> bool:
     else:
         return False
 
-def main_menu() -> bool:
-    print("Welcome to Express-O Point-of-Sale!")
+def purchases_menu() -> bool:
+    print("")
+    choice = prompt("Please select an option:", [
+        (1, "Show All Purchases"),
+        (2, "Get Purchases By Date"),
+        (3, "Get Most Frequent Purchase"),
+        (4, "Return to Main Menu")
+    ])
+
+    if choice == 1:
+        # show_all_purchases()
+        return True
+    elif choice == 2:
+        # get_purchases_by_date()
+        return True
+    elif choice == 3:
+        # get_most_frequent_purchase()
+        return True
+    else:
+        return False
+
+def customers_menu() -> bool:
+    print("")
     choice = prompt("Please select an option:", [
         (1, "Show All Customers"),
         (2, "Add Customer"),
-        (4, "Manage Baked Goods"),
-        (5, "Manage Ingredients"),
-        (3, "Exit")
+        (3, "Return to Main Menu")
     ])
 
     if choice == 1:
@@ -205,12 +226,33 @@ def main_menu() -> bool:
     elif choice == 2:
         add_customer()
         return True
-    elif choice == 4:
+    else:
+        return False
+
+def main_menu() -> bool:
+    print("Welcome to Express-O Point-of-Sale!")
+    choice = prompt("Please select an option:", [
+        (1, "Manage Customers"),
+        (2, "Manage Baked Goods"),
+        (3, "Manage Ingredients"),
+        (4, "Manage Purchases"),
+        (5, "Exit")
+    ])
+
+    if choice == 1:
+        while customers_menu():
+            pass
+        return True
+    elif choice == 2:
         while baked_goods_menu():
             pass
         return True
-    elif choice == 5:
+    elif choice == 3:
         while ingredients_menu():
+            pass
+        return True
+    elif choice == 4:
+        while purchases_menu():
             pass
         return True
     else:
