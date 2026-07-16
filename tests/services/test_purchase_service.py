@@ -53,5 +53,5 @@ def test_total_cost_creating_purchase(blueberry_muffin,latte):
     purchase=Purchase(130,[blueberry_muffin,latte],Alex,d)
     ps=purchaseService.create_purchase(purchase)
     x=ps.total_cost
-    exact=Decimal("7.78")
+    exact=Decimal("9.25")
     assert x == exact

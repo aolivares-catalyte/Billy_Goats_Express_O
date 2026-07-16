@@ -57,20 +57,21 @@ from services.purchase_service import PurchaseService
 
 # # Drinks
 
-# @pytest.fixture
-# def americano(beans, water) -> Drink:
-#     markup = Decimal("0.25")
-#     return Drink(1, "Americano", [beans, water], Decimal("3.00"), markup)
+@pytest.fixture
+def americano(beans, water) -> Drink:
+    markup = Decimal("1.25")
+    return Drink(1, "Americano", [beans, water], Decimal("3.00"), markup)
 
-# @pytest.fixture
-# def latte(beans, water, milk) -> Drink:
-#     markup = Decimal("0.25")
-#     return Drink(2, "Latte", [beans, water, milk], Decimal("5.00"), markup)
+@pytest.fixture
+def latte(beans, water, milk) -> Drink:
+    markup = Decimal("1.25")
+    return Drink(2, "Latte", [beans, water, milk], Decimal("5.00"), markup)
 
-# @pytest.fixture
-# def black_tea(black_tea_leaves, water) -> Drink:
-#     markup = Decimal("0.17")
-#     return Drink(3, "Black Tea", [black_tea_leaves, water], Decimal("1.50"), markup)
+@pytest.fixture
+def black_tea(black_tea_leaves, water) -> Drink:
+    markup = Decimal("1.17")
+    return Drink(3, "Black Tea", [black_tea_leaves, water], Decimal("1.50"), markup)
+
 
 # # Services
 
