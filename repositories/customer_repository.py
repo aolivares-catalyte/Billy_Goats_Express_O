@@ -1,4 +1,5 @@
 from models.customer import Customer
+import re
 
 class CustomerRepository:
     """Manages the list of Customers."""
@@ -31,6 +32,9 @@ class CustomerRepository:
             The Customer with the specified name, or None if not found.
         """
         return next((c for c in self._customers if c.name == name), None)
+
+    def search_by_name(self, query: str) -> [Customer]:
+        return [c for c in self._customers if re.findall(query, c.name, flags=re.IGNORECASE) ]
 
     def add(self, customer: Customer) -> Customer:
         """Add a Customer to the repository.

@@ -97,10 +97,7 @@ def show_customers():
     customers = customer_service.get_all_customers()
     print(f"=== DISPLAYING CUSTOMERS (Total: {len(customers):02}) ===")
     for customer in customers:
-        print(f"Customer ID: {customer.id}")
-        print(f"    Name: {customer.name}")
-        print(f"    Email: {customer.email}")
-        print(f"    Lifetime Spent: ${customer.lifetime_spent}")
+        print_customer(customer)
         print()
     print(f"=== END CUSTOMERS ======================")
     print()
@@ -125,6 +122,28 @@ def add_customer():
     except DuplicateCustomerError as e:
         print(f"ERROR: Duplicate customer: {str(e)}")
         print("Please re-enter customer details.")
+
+def print_customer(customer: Customer):
+    print(f"Customer ID: {customer.id}")
+    print(f"    Name: {customer.name}")
+    print(f"    Email: {customer.email}")
+    print(f"    Lifetime Spent: ${customer.lifetime_spent}")
+
+def find_customer_by_name():
+    print("Find Customer By Name:")
+    print("Search for (case insensitive) => ", end="", flush=True)
+    query = input()
+    customers = customer_service.search_customers_by_name(query)
+    if customers:
+        print(f"=== DISPLAYING CUSTOMERS (Total: {len(customers):02}) ===")
+        for customer in customers:
+            print_customer(customer)
+            print()
+        print(f"=== END CUSTOMERS ======================")
+        print()
+    else:
+        print("=== NO RESULTS MATCHING QUERY ===========")
+        print()
 
 # Ingredients
 
@@ -307,14 +326,18 @@ def customers_menu() -> bool:
     print("----------------------")
     choice = prompt("Please select an option:", [
         (1, "Show All Customers 😋"),
-        (2, "Add Customer ➕"),
-        (3, "Return to Main Menu ⬅️")
+        (2, "Search Customers By Name 🔍"),
+        (3, "Add Customer ➕"),
+        (4, "Return to Main Menu ⬅️")
     ])
 
     if choice == 1:
         show_customers()
         return True
     elif choice == 2:
+        find_customer_by_name()
+        return True
+    elif choice == 3:
         add_customer()
         return True
     else:

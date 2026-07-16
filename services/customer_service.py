@@ -96,6 +96,9 @@ class CustomerService:
         """
         self._repository.get_by_name(name)
 
+    def search_customers_by_name(self, query: str) -> [Customer]:
+        return self._repository.search_by_name(query)
+
     def create_customer(self, customer: Customer) -> Customer:
         """Add a new customer to the service.
 
