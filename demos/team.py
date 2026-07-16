@@ -8,6 +8,9 @@ from repositories.customer_repository import CustomerRepository
 from models.drink import Drink
 from models.ingredient import Ingredient
 from datetime import datetime, timezone
+from repositories.ingredient_repository import IngredientRepository
+from services.ingredient_service import IngredientService
+from exceptions import DuplicateIngredientError
 
 purchase_service = PurchaseService(PurchaseRepository())
 d= datetime(2020, 1, 1, tzinfo=timezone.utc)
@@ -65,6 +68,26 @@ def add_customer():
     email = input()
     id = fresh_id(customer_service.get_all_customers())
     customer_service.create_customer(Customer(id, name, email))
+
+def add_ingredient():
+    repository = IngredientRepository()
+    service = IngredientService(repository)
+
+    ingredient = Ingredient(
+        id=1,
+        name="Flour",
+        purchasing_cost=Decimal("3.99"),
+        unit_amount=5.0,
+        unit_of_measure="lb"
+    )
+
+    service.add_ingredient(ingredient)
+    print("An ingredient has been successfully added.")
+
+    try:
+        service.add_ingredient(ingredient)
+    except DuplicateIngredientError as e:
+        print(f"Error: This ingredient {e} has already been successfully added.")
 
 def main_menu() -> bool:
     print("Welcome to Express-O Point-of-Sale!")

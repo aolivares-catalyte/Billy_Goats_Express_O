@@ -4,7 +4,7 @@ from repositories.ingredient_repository import IngredientRepository
 from services.ingredient_service import IngredientService
 from exceptions import DuplicateIngredientError
 
-def main():
+def add_ingredient():
     repository = IngredientRepository()
     service = IngredientService(repository)
 
@@ -23,6 +23,3 @@ def main():
         service.add_ingredient(ingredient)
     except DuplicateIngredientError as e:
         print(f"Error: This ingredient {e} has already been successfully added.")
-
-if __name__ == "__main__":
-    main()
