@@ -158,7 +158,9 @@ def add_baked_good():
 # Menus
 
 def ingredients_menu() -> bool:
-    print("")
+    print()
+    print(">>> Ingredients Menu <<<")
+    print("------------------------")
     choice = prompt("Please select an option:", [
         (1, "Add New Ingredient"),
         (2, "Return to Main Menu"),
@@ -171,7 +173,9 @@ def ingredients_menu() -> bool:
         return False
 
 def baked_goods_menu() -> bool:
-    print("")
+    print()
+    print(">>> Baked Goods Menu <<<")
+    print("------------------------")
     choice = prompt("Please select an option:", [
         (1, "Show All Baked Goods"),
         (2, "Search Baked Goods"),
@@ -192,7 +196,9 @@ def baked_goods_menu() -> bool:
         return False
 
 def purchases_menu() -> bool:
-    print("")
+    print()
+    print(">>> Purchases Menu <<<")
+    print("-----------------------")
     choice = prompt("Please select an option:", [
         (1, "Show All Purchases"),
         (2, "Get Purchases By Date"),
@@ -213,7 +219,9 @@ def purchases_menu() -> bool:
         return False
 
 def customers_menu() -> bool:
-    print("")
+    print()
+    print(">>> Customers Menu <<<")
+    print("----------------------")
     choice = prompt("Please select an option:", [
         (1, "Show All Customers"),
         (2, "Add Customer"),
@@ -230,7 +238,9 @@ def customers_menu() -> bool:
         return False
 
 def main_menu() -> bool:
-    print("Welcome to Express-O Point-of-Sale!")
+    print()
+    print(">>> Main Menu <<<")
+    print("-----------------")
     choice = prompt("Please select an option:", [
         (1, "Manage Customers"),
         (2, "Manage Baked Goods"),
@@ -259,6 +269,10 @@ def main_menu() -> bool:
         return False
 
 def main():
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print("Welcome to Express-O Point-of-Sale!")
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+
     while main_menu():
         pass
 
