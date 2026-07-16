@@ -6,36 +6,36 @@ from repositories.customer_repository import CustomerRepository
 def validate_email(email: str, customer_repository: CustomerRepository):
     split_at = email.split("@")
     if len(split_at) != 2:
-        raise InvalidEmailError("Email {email} must contain one '@' character")
+        raise InvalidEmailError(f"Email {email} must contain one '@' character")
     else:
         username, server = split_at
 
     split_dot = server.split(".")
     if len(split_dot) != 2:
-        raise InvalidEmailError("Server {server} must contain one '.' character")
+        raise InvalidEmailError(f"Server {server} must contain one '.' character")
     else:
         domain, extension = split_dot
 
     if not re.match("[A-Za-z0-9]", username):
-        raise InvalidEmailError("Username #{username} contains invalid characters")
+        raise InvalidEmailError(f"Username #{username} contains invalid characters")
     elif len(username) < 1:
-        raise InvalidEmailError("Username #{username} must be at least one character")
+        raise InvalidEmailError(f"Username #{username} must be at least one character")
     elif len(username) > 30:
-        raise InvalidEmailError("Username #{username} must be less than 30 characters")
+        raise InvalidEmailError(f"Username #{username} must be less than 30 characters")
     elif not re.match("[A-Za-z0-9]", domain):
-        raise InvalidEmailError("Domain #{domain} contains invalid characters")
+        raise InvalidEmailError(f"Domain #{domain} contains invalid characters")
     elif len(domain) < 1:
-        raise InvalidEmailError("Domain #{domain} must be at least one character")
+        raise InvalidEmailError(f"Domain #{domain} must be at least one character")
     elif len(domain) > 30:
-        raise InvalidEmailError("Domain #{domain} must be less than 30 characters")
+        raise InvalidEmailError(f"Domain #{domain} must be less than 30 characters")
     elif not re.match("[A-Za-z0-9]", extension):
-        raise InvalidEmailError("Extension #{extension} contains invalid characters")
+        raise InvalidEmailError(f"Extension #{extension} contains invalid characters")
     elif len(extension) < 2:
-        raise InvalidEmailError("Extension #{extension} must be at least two characters")
+        raise InvalidEmailError(f"Extension #{extension} must be at least two characters")
     elif len(extension) > 15:
-        raise InvalidEmailError("Extension #{extension} must be less than 15 characters")
+        raise InvalidEmailError(f"Extension #{extension} must be less than 15 characters")
     elif email in map(lambda c: c.email, customer_repository.get_all()):
-        raise DuplicateEmailError("Email #{email} must be unique")
+        raise DuplicateEmailError(f"Email #{email} must be unique")
 
 def validate_id(id: int, customer_repository: CustomerRepository, allow_one: bool = False):
     existing = customer_repository.get_by_id(id)
@@ -44,11 +44,11 @@ def validate_id(id: int, customer_repository: CustomerRepository, allow_one: boo
         if allow_one:
             count = len(filter(lambda c: c.id == id, customer_repository.get_all()))
             if not count <= 1:
-                raise DuplicateCustomerError("Customer {customer.id} already exists")
+                raise DuplicateCustomerError(f"Customer {id} already exists")
 
 def validate_name(name: str, customer_repository: CustomerRepository):
     if customer_repository.get_by_name(name) is not None:
-        raise DuplicateCustomerError("Customer {customer.name} already exists")
+        raise DuplicateCustomerError(f"Customer {name} already exists")
 
 class CustomerService:
     """A service for managing Customers"""
