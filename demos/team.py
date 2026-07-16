@@ -85,25 +85,22 @@ def add_customer():
 
 # Ingredients
 
-def add_ingredient():
-    repository = IngredientRepository()
-    service = IngredientService(repository)
-
-    ingredient = Ingredient(
-        id=1,
-        name="Flour",
-        purchasing_cost=Decimal("3.99"),
-        unit_amount=5.0,
-        unit_of_measure="lb"
-    )
-
-    service.add_ingredient(ingredient)
-    print("An ingredient has been successfully added.")
-
-    try:
-        service.add_ingredient(ingredient)
-    except DuplicateIngredientError as e:
-        print(f"Error: This ingredient {e} has already been successfully added.")
+def add_ingredients(): 
+        id = int(input("Enter ingredient ID: "))
+        name = input("Enter ingredient name: ")
+        purchasing_cost = Decimal(input("Enter purchasing cost: "))
+        unit_amount = float(input("Enter unit amount: "))
+        unit_of_measure = str(input("Enter unit of measure: "))
+       
+        ingredient = Ingredient(
+            id=id,
+            name=name,
+            purchasing_cost=purchasing_cost,
+            unit_amount=unit_amount,
+            unit_of_measure=unit_of_measure
+        )
+        
+        print("Ingredient added successfully.")
 
 # Baked Goods
 
@@ -160,7 +157,7 @@ def ingredients_menu() -> bool:
     ])
 
     if choice == 1:
-        # add_ingredient()
+        add_ingredients()
         return True
     else:
         return False
