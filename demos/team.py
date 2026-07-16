@@ -25,20 +25,49 @@ from decimal import Decimal
 # Preassembled Services / Objects
 
 purchase_service = PurchaseService(PurchaseRepository())
-d= datetime(2020, 1, 1, tzinfo=timezone.utc)
-beans=Ingredient(1, "Coffee Beans", Decimal("2.50"), 14.0, "g")
-water=Ingredient(2, "Water", Decimal("0.01"), 250.0, "g")
-milk=Ingredient(3, "Milk", Decimal("1.25"), 250.0, "g")
-latte=Drink(2, "Latte", [beans, water, milk], Decimal("5.00"),Decimal("1.25") )
-blueberry_muffin=Ingredient(2, "Water", Decimal("0.01"), 250.0, "g")
-alex=Customer(99,"Alex","aolivares1042@gmail.com",Decimal("2000.00"))
-# alex_purchase = Purchase(120,[blueberry_muffin,latte],alex,d)
-# purchase_service.create_purchase(alex_purchase)
-
 customer_service = CustomerService(CustomerRepository())
-bill = Customer(1, "Bill Walters", "bill.walters@example.com", Decimal("560.78"))
+
+date_1 = "2024-11-30 08:15:00 UTC"
+date_2 = "2024-11-30 09:30:00 UTC"
+date_3 = "2024-12-01 10:00:00 UTC"
+date_4 = "2024-12-01 14:45:00 UTC"
+date_5 = "2024-12-02 07:30:00 UTC"
+
+# Ingredients
+beans = Ingredient(1, "Coffee Beans", Decimal("2.50"), 14.0, "g")
+water = Ingredient(2, "Water", Decimal("0.01"), 250.0, "g")
+milk = Ingredient(3, "Milk", Decimal("1.25"), 250.0, "g")
+
+# Drinks
+latte = Drink(1, "Latte", [beans, water, milk], Decimal("5.00"), Decimal("1.25"))
+americano = Drink(2, "Americano", [beans, water], Decimal("3.00"), Decimal("1.30"))
+
+# Baked Goods 
+blueberry_muffin = BakedGood(11, "Blueberry Muffin", Decimal("1.50"), Decimal("2.00"), "Blue Farms", ["Wheat", "Eggs", "Milk"])
+croissant = BakedGood(12, "Croissant", Decimal("2.00"), Decimal("1.50"), "French Bakery", ["Wheat", "Butter"])
+
+# Customers
+alex = Customer(99, "Alex", "aolivares1042@gmail.com", Decimal("2000.00"))
+bill = Customer(100, "Bill Walters", "bill.walters@example.com", Decimal("560.78"))
+
+
+customer_service.create_customer(alex)
 customer_service.create_customer(bill)
 
+#Purchases 
+
+purchase_1 = Purchase(101, [blueberry_muffin, latte], alex, date_1)
+purchase_2 = Purchase(102, [americano], bill, date_2)
+purchase_3 = Purchase(103, [croissant, croissant, latte], alex, date_3)
+purchase_4 = Purchase(104, [latte, blueberry_muffin], bill, date_4)
+purchase_5 = Purchase(105, [americano, croissant], alex, date_5)
+
+
+purchase_service.create_purchase(purchase_1)
+purchase_service.create_purchase(purchase_2)
+purchase_service.create_purchase(purchase_3)
+purchase_service.create_purchase(purchase_4)
+purchase_service.create_purchase(purchase_5)
 # Shared Input/Ouput Routines
 
 def prompt(prompt: str, options: list[tuple[int, str]]) -> int:
@@ -204,7 +233,7 @@ def get_most_frequent_purchase():
     popular_item = purchase_service.get_most_frequent_item()
     
     if popular_item:
-        print(f"The current fan-favorite is: {popular_item}")
+        print(f"The most popular item at Express-O is:  {popular_item}")
     else:
         print("No purchases found in the system yet.")
     print("-----------------------\n")
