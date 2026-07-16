@@ -4,6 +4,7 @@ from models.drink import Drink
 from models.baked_good import BakedGood
 from exceptions import DuplicatePurchaseError,IncorrectDateFormat
 from datetime import datetime, timezone
+from collections import Counter
 
 class PurchaseService:
     def __init__(self, repository: PurchaseRepository):
@@ -22,4 +23,25 @@ class PurchaseService:
         return self._repository.add(purchase)
     def get_all_purchases(self):
         return self._repository.get_all()
+    def get_all_purchases_by_date(self,date):
+        correct_date=[]
+        correct_format = "%Y-%m-%d %H:%M:%S UTC"
+        try:
+            datetime.strptime(date, correct_format)
+        except (TypeError,ValueError):
+            raise IncorrectDateFormat(f"Timestamp {date} is not in the right format")
+        for purchase in self._repository.get_all:
+            if purchase.timestamp ==date:
+                correct_date.append(purchase)
+        return correct_date
+    
+    def get_most_frequent_item(self):
+        all_items = []
+        for current_purchase in self._repository.get_all():
+            for item in current_purchase.items:
+                all_items.append(item.name) 
+        if not all_items:
+            return None
+        most_frequent = Counter(all_items).most_common(1)[0][0]
+        return most_frequent
     
