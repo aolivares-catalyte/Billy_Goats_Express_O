@@ -37,6 +37,19 @@ def validate_email(email: str, customer_repository: CustomerRepository):
     elif email in map(lambda c: c.email, customer_repository.get_all()):
         raise DuplicateEmailError("Email #{email} must be unique")
 
+def validate_id(id: int, customer_repository: CustomerRepository, allow_one: bool = False):
+    existing = customer_repository.get_by_id(id)
+    pool = customer_repository.get_all()
+    if customer_repository.get_by_id(id) is not None:
+        if allow_one:
+            count = len(filter(lambda c: c.id == id, customer_repository.get_all()))
+            if not count <= 1:
+                raise DuplicateCustomerError("Customer {customer.id} already exists")
+
+def validate_name(name: str, customer_repository: CustomerRepository):
+    if customer_repository.get_by_name(name) is not None:
+        raise DuplicateCustomerError("Customer {customer.name} already exists")
+
 class CustomerService:
     """A service for managing Customers"""
 
@@ -59,7 +72,7 @@ class CustomerService:
         Returns:
             A list containing the customers.
         """
-        return []
+        return self._repository.get_all()
 
     def get_customer_by_id(self, id: int) -> Customer | None:
         """Search for a customer by ID.
@@ -97,15 +110,10 @@ class CustomerService:
         Returns:
             The customer that was added.
         """
-        if self._repository.get_by_name(customer.name) is not None:
-            msg = f"Customer {customer.name} already exists"
-            raise DuplicateCustomerError(msg)
-        elif self._repository.get_by_id(customer.id) is not None:
-            msg = f"Customer {customer.id} already exists"
-            raise DuplicateCustomerError(msg)
-        else:
-            validate_email(customer.email, self._repository)
-            return self._repository.add(customer)
+        validate_id(customer.id, self._repository)
+        validate_email(customer.email, self._repository)
+        validate_name(customer.name, self._repository)
+        return self._repository.add(customer)
 
     def update_customer(self, id: int, customer: Customer) -> Customer | None:
         """Add a new customer to the service.
@@ -121,6 +129,8 @@ class CustomerService:
         Returns:
             The customer that was added.
         """
+        validate_email(customer.email, self._repository)
+        validate_name(customer.name, self._repository)
         return self._repository.update(id, customer)
 
     def delete_customer(self, id: int) -> bool:
