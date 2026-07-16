@@ -70,7 +70,6 @@ class DrinkService:
             raise DuplicateDrinkError(msg)
         else:
             # calculate the sale_price
-            drink.sale_price = drink.cost_to_produce * drink.markup_percentage
             return self._repository.add(drink)
 
     def update_drink(self, id: int, drink: Drink) -> Drink | None:

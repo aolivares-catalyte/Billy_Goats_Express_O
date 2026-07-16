@@ -3,6 +3,8 @@ from repositories.purchase_repository import PurchaseRepository
 from models.purchase import Purchase
 from decimal import Decimal
 from models.customer import Customer
+from services.customer_service import CustomerService
+from repositories.customer_repository import CustomerRepository
 from models.drink import Drink
 from models.ingredient import Ingredient
 from datetime import datetime, timezone
@@ -17,6 +19,10 @@ blueberry_muffin=Ingredient(2, "Water", Decimal("0.01"), 250.0, "g")
 alex=Customer(99,"Alex","aolivares1042@gmail.com",Decimal("2000.00"))
 alex_purchase = Purchase(120,[blueberry_muffin,latte],alex,d)
 purchase_service.create_purchase(alex_purchase)
+
+customer_service = CustomerService(CustomerRepository())
+bill = Customer(1, "Bill Walters", "bill.walters@example.com", Decimal("560.78"))
+customer_service.create_customer(bill)
 
 def prompt(prompt: str, options: list[tuple[int, str]]) -> int:
     while True:
@@ -39,18 +45,22 @@ def fresh_id(list: list) -> int:
     all_ids = map(lambda o: o.id, list)
     return max(all_ids) + 1
 
-def show_purchases():
-    purchases = purchase_service.get_all_purchases()
-    print(f"Displaying purchases ({len(purchases)}):")
-    for purchase in purchases:
-        print(purchase)
+def show_customers():
+    customers = customer_service.get_all_customers()
+    print(f"=== DISPLAYING CUSTOMERS (Total: {len(customers):02}) ===")
+    for customer in customers:
+        print(f"Customer ID: {customer.id}")
+        print(f"    Name: {customer.name}")
+        print(f"    Email: {customer.email}")
+        print(f"    Lifetime Spent: ${customer.lifetime_spent}")
+        print()
+    print(f"=== END CUSTOMERS ======================")
+    print()
 
-def add_purchase():
-    print("Please log in: ")
-    name = input()
-    print("Add Purchase:")
+def add_customer():
+    print("Add Customer:")
     print("Customer Name => ", end="", flush=True)
-    
+    name = input()
     print("Customer Email => ", end="", flush=True)
     email = input()
     id = fresh_id(customer_service.get_all_customers())
