@@ -152,11 +152,33 @@ def add_baked_good():
 
 # Menus
 
+def baked_goods_menu() -> bool:
+    print("")
+    choice = prompt("Please select an option:", [
+        (1, "Show All Baked Goods"),
+        (2, "Search Baked Goods"),
+        (3, "Delete Baked Good"),
+        (4, "Return to Main Menu")
+    ])
+
+    if choice == 1:
+        # show_all_baked_goods()
+        return True
+    elif choice == 2:
+        # search_baked_goods()
+        return True
+    elif choice == 3:
+        # delete_baked_good()
+        return True
+    else:
+        return False
+
 def main_menu() -> bool:
     print("Welcome to Express-O Point-of-Sale!")
     choice = prompt("Please select an option:", [
         (1, "Show All Customers"),
         (2, "Add Customer"),
+        (4, "Manage Baked Goods"),
         (3, "Exit")
     ])
 
@@ -165,6 +187,10 @@ def main_menu() -> bool:
         return True
     elif choice == 2:
         add_customer()
+        return True
+    elif choice == 4:
+        while baked_goods_menu():
+            pass
         return True
     else:
         return False
