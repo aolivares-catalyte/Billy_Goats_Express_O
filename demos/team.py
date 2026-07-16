@@ -106,11 +106,10 @@ def add_ingredient():
         print(f"Error: This ingredient {e} has already been successfully added.")
 
 # Baked Goods
+repository = BakedGoodRepository()
+service = BakedGoodService(repository)
 
-def add_baked_good():
-    repository = BakedGoodRepository()
-    service = BakedGoodService(repository)
-
+def seed_baked_goods():
     danish = BakedGood(
         id=333,
         name="Danish",
@@ -119,16 +118,6 @@ def add_baked_good():
         vendor_name="Sweet Bakery",
         allergens=["Wheat", "Milk", "Eggs"]
     )
-    service.create_baked_good(danish)
-
-    baked_goods = service.get_all_baked_goods()
-
-    print("Current Baked Goods:")
-
-    for baked_good in baked_goods:
-        print(baked_good)
-
-    print(service.get_all_baked_goods())
 
     apple_pie = BakedGood(
         id=555,
@@ -138,7 +127,6 @@ def add_baked_good():
         vendor_name="WsG Farms",
         allergens=["Milk", "Eggs"]
     )
-    service.create_baked_good(apple_pie)
 
     strawberry_muffin = BakedGood(
         id=999,
@@ -148,27 +136,79 @@ def add_baked_good():
         vendor_name="Sweet Bakery",
         allergens=["Wheat", "Milk", "Eggs"]
     )
+
+    service.create_baked_good(danish)
+    service.create_baked_good(apple_pie)
     service.create_baked_good(strawberry_muffin)
 
+def show_all_baked_goods():
+    baked_goods = service.get_all_baked_goods()
+
+    print(f"\nDisplaying {len(baked_goods)} baked goods:\n")
+
+    for baked_good in baked_goods:
+        print(baked_good)
+
+
+def search_baked_good():
+    name = input("Enter baked good name: ")
+
+    baked_good = service.get_baked_good(name)
+
+    print(baked_good)
+
+def add_baked_good():
+    print("\nAdd Baked Good")
+
+    name = input("Name: ")
+    cost = Decimal(input("Purchasing Cost: "))
+    markup = Decimal(input("Markup Percentage: "))
+    vendor = input("Vendor: ")
+
+    allergens = input("Allergens (comma separated): ").split(",")
+
+    baked_good = BakedGood(
+        id=len(service.get_all_baked_goods()) + 1,
+        name=name,
+        purchasing_cost=cost,
+        markup_percentage=markup,
+        vendor_name=vendor,
+        allergens=[a.strip() for a in allergens]
+    )
+
+    service.create_baked_good(baked_good)
+
+    print(f"\n{name} added successfully!")
+
+def delete_baked_good():
+    name = input("Enter baked good to delete: ")
+
+    service.delete_baked_good(name)
+
+    print(f"{name} deleted.")
 # Menus
 
 def baked_goods_menu() -> bool:
     print("")
     choice = prompt("Please select an option:", [
         (1, "Show All Baked Goods"),
-        (2, "Search Baked Goods"),
-        (3, "Delete Baked Good"),
-        (4, "Return to Main Menu")
+        (2, "Add Baked Good"),
+        (3, "Search Baked Goods"),
+        (4, "Delete Baked Good"),
+        (5, "Return to Main Menu")
     ])
 
     if choice == 1:
-        # show_all_baked_goods()
+        show_all_baked_goods()
         return True
     elif choice == 2:
-        # search_baked_goods()
+        add_baked_good()
         return True
-    elif choice == 3:
-        # delete_baked_good()
+    elif choice == 3:    
+        search_baked_good()
+        return True
+    elif choice == 4:
+        delete_baked_good()
         return True
     else:
         return False
@@ -196,6 +236,7 @@ def main_menu() -> bool:
         return False
 
 def main():
+    seed_baked_goods()
     while main_menu():
         pass
 
